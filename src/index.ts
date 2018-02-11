@@ -6,23 +6,28 @@ import "rxjs/add/operator/let";
 import "rxjs/add/observable/range";
 
 /**
- *  Observable
+ *  Observable of
  */
-Observable.of("hello world").subscribe(x => {
+console.log("#Observable of");
+const subscriptionOf = Observable.of("hello world").subscribe(x => {
   console.log(x);
 });
+subscriptionOf.unsubscribe();
 
 /**
  *  Observable map filter
  */
-Observable.of(1, 2, 3, 4, 5, 6)
+console.log("#Observable map filter");
+const subscriptionMapFilter = Observable.of(1, 2, 3, 4, 5, 6)
   .map(x => x)
   .filter(x => x > 2)
   .subscribe(x => console.log(x));
+subscriptionMapFilter.unsubscribe();
 
 /**
  * LET
  */
+console.log("#LET");
 const obs = Observable.range(1, 3);
 const sourceLet = obs.let(o => o.concat(o));
 const subscriptionLet = sourceLet.subscribe(
@@ -30,10 +35,12 @@ const subscriptionLet = sourceLet.subscribe(
   err => console.log("Error: %s", err),
   () => console.log("Completed")
 );
+subscriptionLet.unsubscribe();
 
 /**
  * SCAN: Without a seed
  */
+console.log("#SCAN: Without a seed");
 const sourceScan = Observable.range(1, 3).scan((acc, x, sourceScan) => acc + x);
 
 const subscriptionScan = sourceScan.subscribe(
@@ -41,17 +48,20 @@ const subscriptionScan = sourceScan.subscribe(
   err => console.log("Error: %s", err),
   () => console.log("Completed")
 );
+subscriptionScan.unsubscribe();
 
 /**
  * SCAN: With a seed
  */
-const sourceScanWithoutASeed = Observable.range(1, 3).scan(
-  (acc, x, sourceScanWithoutASeed) => acc + x,
+console.log("#SCAN: With a seed");
+const sourceScanWithASeed = Observable.range(1, 3).scan(
+  (acc, x, sourceScanWithASeed) => acc + x,
   1
 );
 
-const subscriptionScanWithoutASeed = sourceScan.subscribe(
+const subscriptionScanWithASeed = sourceScanWithASeed.subscribe(
   x => console.log("Next: %s", x),
   err => console.log("Error: %s", err),
   () => console.log("Completed")
 );
+subscriptionScanWithASeed.unsubscribe();
